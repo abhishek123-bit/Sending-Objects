@@ -1,6 +1,7 @@
 package com.example.sendingobjects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.internal.SafeIterableMap;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.example.sendingobjects.databinding.ActivityObjectSenderBinding;
 import com.example.sendingobjects.models.Student;
 
+
 public class ObjectSenderActivity extends AppCompatActivity {
     ActivityObjectSenderBinding b;
 
@@ -17,18 +19,25 @@ public class ObjectSenderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Initialize binding
         b = ActivityObjectSenderBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
 
         setTitle("ObjectSender Activity");
 
+        //Send data to ViewerActivity
         sendDataToViewerActivity();
     }
 
+    /**
+     * Trigger Event handlers to listen the actions
+     */
     private void sendDataToViewerActivity() {
+        //click event
         b.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Validation
                 if (checkValidation()) {
                     sendData();
                 }
@@ -36,19 +45,24 @@ public class ObjectSenderActivity extends AppCompatActivity {
         });
     }
 
-    //Sending data to ObjectViewer Activity
+    /**
+     * Sending data to ObjectViewer Activity
+     */
     private void sendData() {
 
         Student student = new Student(b.studentName.getText().toString().trim(), b.rollNo.getText().toString().trim(), b.phoneNo.getText().toString().trim(), b.gender.getCheckedRadioButtonId());
 
         Intent intent = new Intent(ObjectSenderActivity.this, ObjectViewerActivity.class);
+
         intent.putExtra("STUDENT_DATA", student);
 
         startActivity(intent);
 
     }
 
-    //Validation
+    /**
+     * Validation of data
+     */
     private boolean checkValidation() {
 
         //validation of name
