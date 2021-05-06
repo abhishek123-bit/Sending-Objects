@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SendingObjects">
         <activity android:name=".ObjectViewerActivity"
-            android:parentActivityName=".ObjectSenderActivity">
+            android:parentActivityName=".ObjectSenderActivity"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".ObjectSenderActivity"
