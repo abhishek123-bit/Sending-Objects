@@ -1,6 +1,10 @@
 # My SendingObject App
 
 
+## Features in the application
+- Send object by using the intent
+- Check student phone number and roll number by using regex
+
 ## Previews of the application
 
 <img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/01.png?raw=true" alt="" width="231">
