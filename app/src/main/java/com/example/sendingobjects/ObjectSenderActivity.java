@@ -5,6 +5,7 @@ import androidx.arch.core.internal.SafeIterableMap;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,20 +34,36 @@ public class ObjectSenderActivity extends AppCompatActivity {
 
         setTitle("ObjectSender Activity");
 
+
+        loadSharedPreferences();
+
         //Send data to ViewerActivity
         sendDataToViewerActivity();
 
-
-
-
         //change IME option of StudentName EditText
-       changeImeOptionOfStudentNameET();
+        changeImeOptionOfStudentNameET();
 
         //change IME option of RollNo EditText
-       changeImeOptionOfRollNoET();
+        changeImeOptionOfRollNoET();
 
-       //change IME option of PhoneNo EditText
-       changeImeOptionOfPhoneNoET();
+        //change IME option of PhoneNo EditText
+        changeImeOptionOfPhoneNoET();
+
+
+    }
+
+    /**
+     * Get data from sharedPreference
+     */
+    private void loadSharedPreferences() {
+
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        //update views
+        b.studentName.setText(sharedPreferences.getString(Constants.STUDENT_NAME, ""));
+        b.gender.check(sharedPreferences.getInt(Constants.GENDER, 0));
+        b.rollNo.setText(sharedPreferences.getString(Constants.ROLL_NO, ""));
+        b.phoneNo.setText(sharedPreferences.getString(Constants.PHONE_NO, ""));
 
     }
 
@@ -66,13 +83,12 @@ public class ObjectSenderActivity extends AppCompatActivity {
                 //validation on phone number
                 if (!s.toString().trim().isEmpty() && s.toString().trim().length() == 10) {
                     b.phoneNo.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.restartInput(b.phoneNo);
-                } else  {
+
+                } else {
                     b.phoneNo.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.restartInput(b.phoneNo);
                 }
+                InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.restartInput(b.phoneNo);
             }
 
             @Override
@@ -81,6 +97,7 @@ public class ObjectSenderActivity extends AppCompatActivity {
             }
         });
     }
+
     private void changeImeOptionOfRollNoET() {
         //TextChange event handler
         b.rollNo.addTextChangedListener(new TextWatcher() {
@@ -94,13 +111,13 @@ public class ObjectSenderActivity extends AppCompatActivity {
                 //validation on roll number
                 if (!s.toString().trim().isEmpty() && s.toString().trim().matches("(?!00)\\d{2}(([a-z]{4})|([A-Z]{4}))\\d{3,4}")) {
                     b.rollNo.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.restartInput(b.rollNo);
+
                 } else {
                     b.rollNo.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.restartInput(b.rollNo);
+
                 }
+                InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.restartInput(b.rollNo);
             }
 
             @Override
@@ -109,6 +126,7 @@ public class ObjectSenderActivity extends AppCompatActivity {
             }
         });
     }
+
     private void changeImeOptionOfStudentNameET() {
         //TextChange event handler
         b.studentName.addTextChangedListener(new TextWatcher() {
@@ -120,17 +138,13 @@ public class ObjectSenderActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //validation on student name
-                if(!s.toString().trim().isEmpty()){
+                if (!s.toString().trim().isEmpty()) {
                     b.studentName.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.restartInput(b.studentName);
-
-                }
-                else if(s.toString().trim().isEmpty()){
+                } else  {
                     b.studentName.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.restartInput(b.studentName);
                 }
+                InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.restartInput(b.studentName);
             }
 
             @Override
@@ -210,5 +224,17 @@ public class ObjectSenderActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //update sharedPreference
+        getPreferences(MODE_PRIVATE).edit()
+                .putString(Constants.STUDENT_NAME, b.studentName.getText().toString().trim())
+                .putString(Constants.ROLL_NO, b.rollNo.getText().toString().trim())
+                .putString(Constants.PHONE_NO, b.phoneNo.getText().toString().trim())
+                .putInt(Constants.GENDER, b.gender.getCheckedRadioButtonId()).apply();
+
     }
 }
