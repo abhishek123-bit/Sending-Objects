@@ -3,9 +3,17 @@ package com.example.sendingobjects;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.internal.SafeIterableMap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.ActionMode;
+import android.view.ActionProvider;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.sendingobjects.databinding.ActivityObjectSenderBinding;
@@ -27,6 +35,109 @@ public class ObjectSenderActivity extends AppCompatActivity {
 
         //Send data to ViewerActivity
         sendDataToViewerActivity();
+
+
+
+
+        //change IME option of StudentName EditText
+       changeImeOptionOfStudentNameET();
+
+        //change IME option of RollNo EditText
+       changeImeOptionOfRollNoET();
+
+       //change IME option of PhoneNo EditText
+       changeImeOptionOfPhoneNoET();
+
+    }
+
+    /**
+     * Change IME option when Text changes
+     */
+    private void changeImeOptionOfPhoneNoET() {
+        //TextChange event handler
+        b.phoneNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //validation on phone number
+                if (!s.toString().trim().isEmpty() && s.toString().trim().length() == 10) {
+                    b.phoneNo.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.restartInput(b.phoneNo);
+                } else  {
+                    b.phoneNo.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.restartInput(b.phoneNo);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+    private void changeImeOptionOfRollNoET() {
+        //TextChange event handler
+        b.rollNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //validation on roll number
+                if (!s.toString().trim().isEmpty() && s.toString().trim().matches("(?!00)\\d{2}(([a-z]{4})|([A-Z]{4}))\\d{3,4}")) {
+                    b.rollNo.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.restartInput(b.rollNo);
+                } else {
+                    b.rollNo.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.restartInput(b.rollNo);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+    private void changeImeOptionOfStudentNameET() {
+        //TextChange event handler
+        b.studentName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //validation on student name
+                if(!s.toString().trim().isEmpty()){
+                    b.studentName.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.restartInput(b.studentName);
+
+                }
+                else if(s.toString().trim().isEmpty()){
+                    b.studentName.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+                    InputMethodManager imm = (InputMethodManager) ObjectSenderActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.restartInput(b.studentName);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     /**
