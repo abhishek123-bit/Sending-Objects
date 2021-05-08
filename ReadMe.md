@@ -7,9 +7,12 @@
 
 ## Previews of the application
 
-<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/01.png?raw=true" alt="" width="231">
-<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/02.png?raw=true" alt="" width="231">
-<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/03.png?raw=true" alt="" width="231">
+<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/01.jpg?raw=true" alt="" width="190">
+<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/02.jpg?raw=true" alt="" width="190">
+<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/03.jpg?raw=true" alt="" width="190">
+<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/04.jpg?raw=true" alt="" height="190">
+<img title="" src="https://github.com/abhishek123-bit/CDN/blob/main/SendingObjects/05.jpg?raw=true" alt="" width="190">
+
 
 ## Download the apk
 
