@@ -12,9 +12,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.ActionProvider;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sendingobjects.databinding.ActivityObjectSenderBinding;
@@ -40,17 +42,32 @@ public class ObjectSenderActivity extends AppCompatActivity {
         //Send data to ViewerActivity
         sendDataToViewerActivity();
 
-        //change IME option of StudentName EditText
-        changeImeOptionOfStudentNameET();
+//        //change IME option of StudentName EditText
+//        changeImeOptionOfStudentNameET();
+//
+//        //change IME option of RollNo EditText
+//        changeImeOptionOfRollNoET();
+//
+//        //change IME option of PhoneNo EditText
+//        changeImeOptionOfPhoneNoET();
 
-        //change IME option of RollNo EditText
-        changeImeOptionOfRollNoET();
 
-        //change IME option of PhoneNo EditText
-        changeImeOptionOfPhoneNoET();
+        b.phoneNo.setOnEditorActionListener(editorActionListener);
 
 
     }
+
+    public TextView.OnEditorActionListener editorActionListener=new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId==EditorInfo.IME_ACTION_SEND){
+                if(checkValidation()){
+                    sendData();
+                }
+            }
+            return false;
+        }
+    };
 
     /**
      * Get data from sharedPreference
